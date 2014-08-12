@@ -48,15 +48,15 @@ module.exports = function (opts) {
     for(var key in process.env) {
         if((new RegExp("^" + options.envPrefix, "i")).test(key)) {
             var splitKey = key
-                .replace(options.envPrefix + "_", "")
+                .replace(options.envPrefix + "__", "")
                 .toLowerCase()
-                .split("_"),
+                .split("__"),
                 memo = null;
 
-            // Camelcase the environment variable using "-"
+            // Camelcase the environment variable using "_"
             for(var x in splitKey) {
-                if(/-/.test(splitKey[x])) {
-                    var splitSplitKey = splitKey[x].split("-");
+                if(/_/.test(splitKey[x])) {
+                    var splitSplitKey = splitKey[x].split("_");
                     for(var i = 1; i < splitSplitKey.length; i++) {
                         splitSplitKey[i] =
                             splitSplitKey[i].substr(0, 1).toUpperCase() +
