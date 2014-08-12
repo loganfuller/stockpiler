@@ -11,7 +11,7 @@ describe("Environment variables", function() {
 
     it("should contain a truthy 'envTestVar' when passed as environment",
        function() {
-        process.env["STOCKPILE_ENV-TEST-VAR"] = "true";
+        process.env["STOCKPILER_ENV-TEST-VAR"] = "true";
 
         var config = require("../index.js")({
             configDir: __dirname + "/config",
@@ -23,7 +23,7 @@ describe("Environment variables", function() {
 
     it("should contain a nested variable when passed as environment",
        function() {
-        process.env["STOCKPILE_NESTED_ENV-TEST-VAR"] = 9;
+        process.env["STOCKPILER_NESTED_ENV-TEST-VAR"] = 9;
 
         var config = require("../index.js")({
             configDir: __dirname + "/config",
@@ -36,7 +36,7 @@ describe("Environment variables", function() {
 
     it("should override file-based config with environment config",
        function() {
-        process.env["STOCKPILE_default-var"] = "envOverride";
+        process.env["STOCKPILER_default-var"] = "envOverride";
 
         var config = require("../index.js")({
             configDir: __dirname + "/config",

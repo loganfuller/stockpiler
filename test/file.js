@@ -31,7 +31,7 @@ describe("File config", function() {
     });
 
     it("should be able to recursively load json config", function() {
-        process.env.NODE_ENV = "stockpile-recursive-test";
+        process.env.NODE_ENV = "stockpiler-recursive-test";
 
         var config = require("../index.js")({
             configDir: __dirname + "/config",

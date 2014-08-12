@@ -11,7 +11,7 @@ var fs = require("fs"),
         propagate: true,
         configDir: __dirname + "/../../config",
         envOverride: true,
-        envPrefix: "STOCKPILE",
+        envPrefix: "STOCKPILER",
         exposeAllToClient: false,
         cacheConfig: true
     },

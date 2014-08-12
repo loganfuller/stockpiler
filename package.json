@@ -1,15 +1,15 @@
 {
-  "name": "stockpilejs",
+  "name": "stockpiler",
   "version": "0.1.0",
   "description": "Simplify your Node.js configuration",
   "main": "index.js",
   "scripts": {
-    "test": "NODE_ENV=stockpile-test mocha --bail --reporter spec --check-leaks test/",
-    "autotest": "NODE_ENV=stockpile-test mocha --watch --reporter min --check-leaks test/"
+    "test": "NODE_ENV=stockpiler-test mocha --bail --reporter spec --check-leaks test/",
+    "autotest": "NODE_ENV=stockpiler-test mocha --watch --reporter min --check-leaks test/"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/thalmic/stockpile.git"
+    "url": "https://github.com/thalmic/stockpiler.git"
   },
   "keywords": [
     "config",
@@ -23,9 +23,9 @@
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/thalmic/stockpile/issues"
+    "url": "https://github.com/thalmic/stockpiler/issues"
   },
-  "homepage": "https://github.com/thalmic/stockpile",
+  "homepage": "https://github.com/thalmic/stockpiler",
   "dependencies": {
     "lodash": "^2.4.1"
   },
