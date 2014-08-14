@@ -17,10 +17,17 @@ var fs = require("fs"),
     },
     config = {};
 
+var mergeReduce = function (memo, val) {
+    var tmp = {};
+    tmp[val] = memo;
+    return tmp;
+};
+
 module.exports = function (opts) {
     var options = _.defaults(_.isPlainObject(opts) ? opts : {}, defaultOptions),
-        defaultConfig = fs.existsSync(options.configDir + "/default.json") ?
-        require(options.configDir + "/default.json") : {};
+        defaultConfig = (fs.existsSync(options.configDir + "/default.json") ?
+        require(options.configDir + "/default.json") : {}),
+        argv = require('minimist')(process.argv.slice(2));
 
     if(options.cacheConfig && !_.isEmpty(config)) {
         return config;
@@ -29,7 +36,8 @@ module.exports = function (opts) {
     }
 
     // Environment specific JSON configuration
-    if(!fs.existsSync(options.configDir + "/" + process.env.NODE_ENV + ".json")) {
+    if(!fs.existsSync(options.configDir + "/" + process.env.NODE_ENV +
+        ".json")) {
         console.info("No config file present for environment '" +
             process.env.NODE_ENV + "'. Falling back to default configuration.");
         config = _.clone(defaultConfig);
@@ -39,12 +47,7 @@ module.exports = function (opts) {
     }
 
     // Convert environ config to an object
-    var envConfig = {},
-        mergeReduce = function (memo, val) {
-            var tmp = {};
-            tmp[val] = memo;
-            return tmp;
-        };
+    var envConfig = {};
     for(var key in process.env) {
         if((new RegExp("^" + options.envPrefix, "i")).test(key)) {
             var splitKey = key
@@ -82,10 +85,20 @@ module.exports = function (opts) {
         }
     }
 
-    // Override JSON config with environment variables
-    if(_.size(envConfig)) {
-        config = _.merge(config, envConfig);
+    // Convert CLI config to an object
+    var cliConfig = {};
+    for(var arg in argv) {
+        if(arg !== "_") {
+            var splitArg = arg
+                .split("-"),
+                memo = argv[arg];
+
+            cliConfig = _.merge(cliConfig, _.reduceRight(splitArg, mergeReduce,
+                memo));
+        }
     }
+
+    config = _.merge(config, envConfig, cliConfig);
 
     return config;
 };
