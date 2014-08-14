@@ -23,6 +23,7 @@ set defaults, add a `default.json` file populated with whatever you need.
 var config = require("stockpiler")({
     configDir: __dirname + "/../../config",
     envPrefix: "STOCKPILER",
+    envMap: {},
     cacheConfig: true
 });
 ```
@@ -84,6 +85,37 @@ Duplicate configuration options are merged in the following order:
 2. &lt;`processs.env.NODE_ENV`&gt;.json
 3. environment variables
 4. CLI arguments
+
+## Mapping Uncontrolled Environment Variables
+
+In certain environments you may be unable to control the naming of specific
+environment variables. This is often the case with PAAS like Heroku and many CI
+providers. In this situation, Stockpiler provides the ability to map unprefixed
+variables to a more useful name.
+
+### Example
+
+Given an environment with variables `PORT=8080` and `MONGOHQ_URI=mongodb://user:password@mongohq.com:1337/dbname`,
+
+```javascript
+var config = require("stockpiler")({
+    envMap: {
+        "PORT": "PORT_NUMBER",
+        "MONGOHQ_URI": "DB__URI"
+    }
+});
+```
+
+the `config` object above will be populated as so:
+
+```javascript
+{
+    portNumber: 8080,
+    db: {
+        uri: "mongodb://user:password@mongohq.com:1337/dbname"
+    }
+}
+```
 
 ## Segmented Configuration
 

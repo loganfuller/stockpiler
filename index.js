@@ -10,6 +10,7 @@ var fs = require("fs"),
     defaultOptions = {
         configDir: __dirname + "/../../config",
         envPrefix: "STOCKPILER",
+        envMap: {},
         cacheConfig: true
     },
     config = {};
@@ -24,7 +25,8 @@ module.exports = function (opts) {
     var options = _.defaults(_.isPlainObject(opts) ? opts : {}, defaultOptions),
         defaultConfig = (fs.existsSync(options.configDir + "/default.json") ?
         _.clone(require(options.configDir + "/default.json")) : {}),
-        argv = require('minimist')(process.argv.slice(2));
+        argv = require('minimist')(process.argv.slice(2)),
+        envVars = _.clone(process.env);
 
     if(options.cacheConfig && !_.isEmpty(config)) {
         return config;
@@ -45,7 +47,17 @@ module.exports = function (opts) {
 
     // Convert environ config to an object
     var envConfig = {};
-    for(var key in process.env) {
+    for(var key in envVars) {
+        if(_.has(options.envMap, key)) {
+            var envVar = envVars[key],
+                oldKey = key,
+                newKey = options.envPrefix + "__" + options.envMap[oldKey];
+
+            envVars[newKey] = envVar;
+            delete envVars[oldKey];
+            key = newKey;
+        }
+
         if((new RegExp("^" + options.envPrefix, "i")).test(key)) {
             var splitKey = key
                 .replace(options.envPrefix + "__", "")
@@ -67,14 +79,14 @@ module.exports = function (opts) {
             }
 
             // Basic type detection and parsing
-            if(_.isFinite(process.env[key])) {
-                memo = parseFloat(process.env[key]);
-            } else if(/^true$/i.test(process.env[key])) {
+            if(_.isFinite(envVars[key])) {
+                memo = parseFloat(envVars[key]);
+            } else if(/^true$/i.test(envVars[key])) {
                 memo = true;
-            } else if(/^false$/i.test(process.env[key])) {
+            } else if(/^false$/i.test(envVars[key])) {
                 memo = false;
             } else {
-                memo = process.env[key];
+                memo = envVars[key];
             }
 
             envConfig = _.merge(envConfig, _.reduceRight(splitKey, mergeReduce,

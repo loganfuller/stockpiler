@@ -58,5 +58,24 @@ describe("Environment variables", function() {
 
         config.should.have.ownProperty("confVal").equal(true);
     });
+
+    it("should properly map uncontrolled environment variables",
+       function() {
+        process.env["PORT"] = 8080;
+        process.env["DBSERVERTYPE"] = "mysql";
+
+        var config = require("../index.js")({
+            configDir: __dirname + "/config",
+            cacheConfig: false,
+            envMap: {
+                "PORT": "PORT_NUMBER",
+                "DBSERVERTYPE": "DB__SERVER_TYPE"
+            }
+        });
+
+        config.should.have.ownProperty("portNumber").equal(8080);
+        config.should.have.ownProperty("db");
+        config.db.should.have.ownProperty("serverType").equal("mysql");
+    });
 });
 
