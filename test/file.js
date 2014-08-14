@@ -18,7 +18,7 @@ describe("File config", function() {
             cacheConfig: false
         });
 
-        config.should.eql({ defaultVar: "default" });
+        config.should.have.ownProperty("defaultVar").equal("default");
     });
 
     it("should override defaults with file config", function() {

@@ -8,11 +8,8 @@ var fs = require("fs"),
     _ = require("lodash"),
     defaultsDeep = _.partialRight(_.merge, _.defaults),
     defaultOptions = {
-        propagate: true,
         configDir: __dirname + "/../../config",
-        envOverride: true,
         envPrefix: "STOCKPILER",
-        exposeAllToClient: false,
         cacheConfig: true
     },
     config = {};
@@ -26,7 +23,7 @@ var mergeReduce = function (memo, val) {
 module.exports = function (opts) {
     var options = _.defaults(_.isPlainObject(opts) ? opts : {}, defaultOptions),
         defaultConfig = (fs.existsSync(options.configDir + "/default.json") ?
-        require(options.configDir + "/default.json") : {}),
+        _.clone(require(options.configDir + "/default.json")) : {}),
         argv = require('minimist')(process.argv.slice(2));
 
     if(options.cacheConfig && !_.isEmpty(config)) {
@@ -36,14 +33,14 @@ module.exports = function (opts) {
     }
 
     // Environment specific JSON configuration
+    var fileConfig = {};
     if(!fs.existsSync(options.configDir + "/" + process.env.NODE_ENV +
         ".json")) {
         console.info("No config file present for environment '" +
             process.env.NODE_ENV + "'. Falling back to default configuration.");
-        config = _.clone(defaultConfig);
     } else {
-        config = defaultsDeep(_.clone(require(options.configDir + "/" +
-            process.env.NODE_ENV + ".json")), _.clone(defaultConfig));
+        fileConfig = _.clone(require(options.configDir + "/" +
+            process.env.NODE_ENV + ".json"));
     }
 
     // Convert environ config to an object
@@ -86,19 +83,25 @@ module.exports = function (opts) {
     }
 
     // Convert CLI config to an object
-    var cliConfig = {};
+    var argConfig = {};
     for(var arg in argv) {
         if(arg !== "_") {
             var splitArg = arg
                 .split("-"),
                 memo = argv[arg];
 
-            cliConfig = _.merge(cliConfig, _.reduceRight(splitArg, mergeReduce,
+            argConfig = _.merge(argConfig, _.reduceRight(splitArg, mergeReduce,
                 memo));
         }
     }
 
-    config = _.merge(config, envConfig, cliConfig);
+    config = _.merge(_.cloneDeep(defaultConfig), _.cloneDeep(fileConfig),
+        _.cloneDeep(envConfig), _.cloneDeep(argConfig), {
+        "_default": defaultConfig,
+        "_file": fileConfig,
+        "_env": envConfig,
+        "_arg": argConfig
+    });
 
     return config;
 };

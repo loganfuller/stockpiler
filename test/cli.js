@@ -49,7 +49,7 @@ describe("Command line", function() {
         config.should.have.ownProperty("defaultVar").equal("cliOverride");
     });
 
-    it("should overrride environment-based config with argument", function() {
+    it("should override environment-based config with argument", function() {
         process.env["STOCKPILER__ENVIRONMENT_OR_CLI"] = "environment";
         process.argv.push("--environmentOrCli", "cli");
 

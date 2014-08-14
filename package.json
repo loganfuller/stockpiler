@@ -1,7 +1,7 @@
 {
   "name": "stockpiler",
-  "version": "0.3.0",
-  "description": "Simplify your Node.js configuration",
+  "version": "1.0.0",
+  "description": "Simplify your node.js configuration",
   "main": "index.js",
   "scripts": {
     "test": "NODE_ENV=stockpiler-test mocha --reporter spec --check-leaks test/",
