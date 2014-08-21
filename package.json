@@ -1,6 +1,6 @@
 {
   "name": "stockpiler",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Simplify your node.js configuration",
   "main": "index.js",
   "scripts": {
@@ -17,7 +17,7 @@
     "environment",
     "json"
   ],
-  "author": "Thalmic Labs <thalmic@thalmic.com>",
+  "author": "Thalmic Labs Inc. <thalmic@thalmic.com>",
   "contributors": [
     "Logan Fuller <fuller.logan@gmail.com>"
   ],

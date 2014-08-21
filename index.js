@@ -25,11 +25,11 @@ module.exports = function (opts) {
     var options = _.defaults(_.isPlainObject(opts) ? opts : {}, defaultOptions),
         defaultConfig = (fs.existsSync(options.configDir + "/default.json") ?
         _.clone(require(options.configDir + "/default.json")) : {}),
-        argv = require('minimist')(process.argv.slice(2)),
+        argv = require("minimist")(process.argv.slice(2)),
         envVars = _.clone(process.env);
 
     if(options.cacheConfig && !_.isEmpty(config)) {
-        return config;
+        return _.cloneDeep(config);
     } else {
         config = {};
     }
@@ -94,7 +94,7 @@ module.exports = function (opts) {
         }
     }
 
-    // Convert CLI config to an object
+    // Convert CLI args to an object
     var argConfig = {};
     for(var arg in argv) {
         if(arg !== "_") {
@@ -115,6 +115,6 @@ module.exports = function (opts) {
         "_arg": argConfig
     });
 
-    return config;
+    return _.cloneDeep(config);
 };
 
