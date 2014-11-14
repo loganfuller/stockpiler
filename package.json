@@ -1,6 +1,6 @@
 {
   "name": "stockpiler",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Simplify your node.js configuration",
   "main": "index.js",
   "scripts": {

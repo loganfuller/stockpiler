@@ -22,11 +22,19 @@ set defaults, add a `default.json` file populated with whatever you need.
 // All options passed to the stockpiler module are defaults and can be excluded
 var config = require("stockpiler")({
     configDir: __dirname + "/../../config",
+    defaultsDir: __dirname + "/../../config", // will be overriden to match configDir if not defined manually
     envPrefix: "STOCKPILER",
     envMap: {},
     cacheConfig: true
 });
 ```
+
+Stockpiler's configDir and defaultsDir can also be set via the environment
+variables `STOCKPILER_CONFIG_DIR` and `STOCKPILER_DEFAULTS_DIR` respectively.
+
+*NOTE: the `STOCKPILER_CONFIG_DIR` and `STOCKPILER_DEFAULTS_DIR` environment
+variables will override any other manual definitions of configDir and
+defaultsDir.*
 
 ## JSON Files
 

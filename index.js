@@ -16,10 +16,6 @@ var fs = require("fs"),
     },
     config = {};
 
-// Used if default.json is not stored in the same location as env-specific conf
-    //defaultOptions.defaultsDir = process.env.STOCKPILER_DEFAULTS_DIR ?
-    // process.env.STOCKPILER_DEFAULTS_DIR : defaultOptions.
-
 var mergeReduce = function (memo, val) {
     var tmp = {};
     tmp[val] = memo;
