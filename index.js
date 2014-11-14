@@ -9,11 +9,16 @@ var fs = require("fs"),
     defaultsDeep = _.partialRight(_.merge, _.defaults),
     defaultOptions = {
         configDir: __dirname + "/../../config",
+        defaultsDir: __dirname + "/../../config",
         envPrefix: "STOCKPILER",
         envMap: {},
         cacheConfig: true
     },
     config = {};
+
+// Used if default.json is not stored in the same location as env-specific conf
+    //defaultOptions.defaultsDir = process.env.STOCKPILER_DEFAULTS_DIR ?
+    // process.env.STOCKPILER_DEFAULTS_DIR : defaultOptions.
 
 var mergeReduce = function (memo, val) {
     var tmp = {};
@@ -22,9 +27,21 @@ var mergeReduce = function (memo, val) {
 };
 
 module.exports = function (opts) {
-    var options = _.defaults(_.isPlainObject(opts) ? opts : {}, defaultOptions),
-        defaultConfig = (fs.existsSync(options.configDir + "/default.json") ?
-        _.clone(require(options.configDir + "/default.json")) : {}),
+    var options = defaultsDeep(_.isPlainObject(opts) ? opts : {},
+        defaultOptions);
+
+    // Stockpiler environment overrides
+    if (process.env.STOCKPILER_CONFIG_DIR) {
+        options.configDir = process.env.STOCKPILER_CONFIG_DIR;
+    }
+    if (process.env.STOCKPILER_DEFAULTS_DIR) {
+        options.defaultsDir = process.env.STOCKPILER_DEFAULTS_DIR;
+    } else {
+        options.defaultsDir = options.configDir;
+    }
+
+    var defaultConfig = (fs.existsSync(options.defaultsDir + "/default.json") ?
+        _.cloneDeep(require(options.defaultsDir + "/default.json")) : {}),
         argv = require("minimist")(process.argv.slice(2)),
         envVars = _.clone(process.env);
 
@@ -41,7 +58,7 @@ module.exports = function (opts) {
         console.info("No config file present for environment '" +
             process.env.NODE_ENV + "'. Falling back to default configuration.");
     } else {
-        fileConfig = _.clone(require(options.configDir + "/" +
+        fileConfig = _.cloneDeep(require(options.configDir + "/" +
             process.env.NODE_ENV + ".json"));
     }
 
