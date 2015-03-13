@@ -1,6 +1,6 @@
 {
   "name": "stockpiler",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "Simplify your node.js configuration",
   "main": "index.js",
   "scripts": {
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/thalmic/stockpiler.git"
+    "url": "https://github.com/loganfuller/stockpiler.git"
   },
   "keywords": [
     "config",
@@ -17,15 +17,15 @@
     "environment",
     "json"
   ],
-  "author": "Thalmic Labs Inc. <thalmic@thalmic.com>",
+  "author": "Logan Fuller <fuller.logan@gmail.com>",
   "contributors": [
     "Logan Fuller <fuller.logan@gmail.com>"
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/thalmic/stockpiler/issues"
+    "url": "https://github.com/loganfuller/stockpiler/issues"
   },
-  "homepage": "https://github.com/thalmic/stockpiler",
+  "homepage": "https://github.com/loganfuller/stockpiler",
   "dependencies": {
     "lodash": "^2.4.1",
     "minimist": "^1.1.0"

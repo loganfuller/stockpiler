@@ -1,4 +1,4 @@
-# Stockpiler [![Build Status](https://travis-ci.org/thalmic/stockpiler.svg)](https://travis-ci.org/thalmic/stockpiler)
+# Stockpiler [![Build Status](https://travis-ci.org/loganfuller/stockpiler.svg)](https://travis-ci.org/loganfuller/stockpiler)
 
 [![NPM](https://nodei.co/npm/stockpiler.png)](https://nodei.co/npm/stockpiler/)
 
@@ -134,7 +134,8 @@ against this in most circumstances), we also include `config._default`, `config.
 
 The MIT License (MIT)
 
-Copyright (c) 2014 Thalmic Labs Inc.
+Copyright (c) 2015 Logan Fuller
+Copyright (c) 2014 - 2015 Thalmic Labs Inc.
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
