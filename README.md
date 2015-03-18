@@ -1,5 +1,7 @@
 # Stockpiler [![Build Status](https://travis-ci.org/loganfuller/stockpiler.svg)](https://travis-ci.org/loganfuller/stockpiler)
 
+[![Join the chat at https://gitter.im/loganfuller/stockpiler](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/loganfuller/stockpiler?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 [![NPM](https://nodei.co/npm/stockpiler.png)](https://nodei.co/npm/stockpiler/)
 
 Stockpiler is designed to be the easiest way to manage your [node.js](http://nodejs.org) project configuration. Aggregate options from environment-specific JSON files, environment variables, and CLI arguments, and easily define project-level defaults.
