@@ -1,6 +1,8 @@
 "use strict";
 
 var _ = require("lodash"),
+    path = require("path"),
+    configDir = path.join(__dirname, "config"),
     origEnv = _.clone(process.env);
 
 describe("Environment variables", function() {
@@ -14,7 +16,7 @@ describe("Environment variables", function() {
         process.env["STOCKPILER__ENV_TEST_VAR"] = "true";
 
         var config = require("../index.js")({
-            configDir: __dirname + "/config",
+            configDir: configDir,
             cacheConfig: false
         });
 
@@ -26,7 +28,7 @@ describe("Environment variables", function() {
         process.env["STOCKPILER__NESTED__ENV_TEST_VAR"] = 9;
 
         var config = require("../index.js")({
-            configDir: __dirname + "/config",
+            configDir: configDir,
             cacheConfig: false
         });
 
@@ -39,7 +41,7 @@ describe("Environment variables", function() {
         process.env["STOCKPILER__DEFAULT_VAR"] = "envOverride";
 
         var config = require("../index.js")({
-            configDir: __dirname + "/config",
+            configDir: configDir,
             cacheConfig: false
         });
 
@@ -51,7 +53,7 @@ describe("Environment variables", function() {
         process.env["CUSTPREFIX__CONF_VAL"] = true;
 
         var config = require("../index.js")({
-            configDir: __dirname + "/config",
+            configDir: configDir,
             envPrefix: "CUSTPREFIX",
             cacheConfig: false
         });
@@ -65,7 +67,7 @@ describe("Environment variables", function() {
         process.env["DBSERVERTYPE"] = "mysql";
 
         var config = require("../index.js")({
-            configDir: __dirname + "/config",
+            configDir: configDir,
             cacheConfig: false,
             envMap: {
                 "PORT": "PORT_NUMBER",

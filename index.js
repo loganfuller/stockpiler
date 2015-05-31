@@ -5,21 +5,52 @@ if(typeof process.env.NODE_ENV === "undefined") {
 }
 
 var fs = require("fs"),
+    path = require("path"),
     _ = require("lodash"),
+    minimist = require("minimist"),
+    defaultConfigDir = path.join(__dirname, "..", "..", "config"),
     defaultsDeep = _.partialRight(_.merge, _.defaults),
     defaultOptions = {
-        configDir: __dirname + "/../../config",
-        defaultsDir: __dirname + "/../../config",
+        configDir: defaultConfigDir,
+        defaultsDir: defaultConfigDir,
         envPrefix: "STOCKPILER",
         envMap: {},
         cacheConfig: true
     },
-    config = {};
+    _config;
 
 var mergeReduce = function (memo, val) {
     var tmp = {};
     tmp[val] = memo;
     return tmp;
+};
+
+// Config class
+var Config = function(defaultConfig, fileConfig, envConfig, argConfig) {
+    var mergedConfig = _.merge({}, defaultConfig, fileConfig, envConfig, argConfig);
+
+    for(var prop in mergedConfig) {
+        this[prop] = mergedConfig[prop];
+    }
+
+    Object.defineProperties(this, {
+        "_default": {
+            value: defaultConfig,
+            enumerable: false
+        },
+        "_file": {
+            value: fileConfig,
+            enumerable: false
+        },
+        "_env": {
+            value: envConfig,
+            enumerable: false
+        },
+        "_arg": {
+            value: argConfig,
+            enumerable: false
+        }
+    });
 };
 
 module.exports = function (opts) {
@@ -36,16 +67,14 @@ module.exports = function (opts) {
         options.defaultsDir = options.configDir;
     }
 
+    if(options.cacheConfig && _config) {
+        return _config;
+    }
+
     var defaultConfig = (fs.existsSync(options.defaultsDir + "/default.json") ?
         _.cloneDeep(require(options.defaultsDir + "/default.json")) : {}),
-        argv = require("minimist")(process.argv.slice(2)),
+        argv = minimist(process.argv.slice(2)),
         envVars = _.clone(process.env);
-
-    if(options.cacheConfig && !_.isEmpty(config)) {
-        return _.cloneDeep(config);
-    } else {
-        config = {};
-    }
 
     // Environment specific JSON configuration
     var fileConfig = {};
@@ -120,14 +149,9 @@ module.exports = function (opts) {
         }
     }
 
-    config = _.merge(_.cloneDeep(defaultConfig), _.cloneDeep(fileConfig),
-        _.cloneDeep(envConfig), _.cloneDeep(argConfig), {
-        "_default": defaultConfig,
-        "_file": fileConfig,
-        "_env": envConfig,
-        "_arg": argConfig
-    });
+    var configInstance = new Config(defaultConfig, fileConfig, envConfig, argConfig);
 
-    return _.cloneDeep(config);
+    if(options.cacheConfig) _config = configInstance;
+
+    return configInstance;
 };
-

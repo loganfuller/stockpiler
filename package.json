@@ -1,11 +1,11 @@
 {
   "name": "stockpiler",
-  "version": "1.2.3",
+  "version": "2.0.0",
   "description": "Simplify your node.js configuration",
   "main": "index.js",
   "scripts": {
     "test": "NODE_ENV=stockpiler-test mocha --reporter spec --check-leaks test/",
-    "autotest": "NODE_ENV=stockpiler-test mocha --watch --reporter min --check-leaks test/"
+    "autotest": "NODE_ENV=stockpiler-test mocha --watch --reporter spec --check-leaks test/"
   },
   "repository": {
     "type": "git",

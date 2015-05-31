@@ -1,12 +1,14 @@
 "use strict";
 
 var _ = require("lodash"),
+    path = require("path"),
+    configDir = path.join(__dirname, "config"),
     origEnv = _.clone(process.env),
     origArgv = process.argv.slice(0,2);
 
 describe("Command line", function() {
     afterEach(function() {
-        process.argv = null;
+        process.argv = [];
         process.argv = _.clone(origArgv);
 
         process.env = null;
@@ -18,7 +20,7 @@ describe("Command line", function() {
         process.argv.push("--cliTestVar", "42");
 
         var config = require("../index.js")({
-            configDir: __dirname + "/config",
+            configDir: configDir,
             cacheConfig: false
         });
 
@@ -29,7 +31,7 @@ describe("Command line", function() {
         process.argv.push("--nested-deep-cliTestVar");
 
         var config = require("../index.js")({
-            configDir: __dirname + "/config",
+            configDir: configDir,
             cacheConfig: false
         });
 
@@ -42,7 +44,7 @@ describe("Command line", function() {
         process.argv.push("--defaultVar", "cliOverride");
 
         var config = require("../index.js")({
-            configDir: __dirname + "/config",
+            configDir: configDir,
             cacheConfig: false
         });
 
@@ -54,7 +56,7 @@ describe("Command line", function() {
         process.argv.push("--environmentOrCli", "cli");
 
         var config = require("../index.js")({
-            configDir: __dirname + "/config",
+            configDir: configDir,
             cacheConfig: false
         });
 

@@ -1,4 +1,4 @@
-# Stockpiler [![Build Status](https://travis-ci.org/loganfuller/stockpiler.svg)](https://travis-ci.org/loganfuller/stockpiler)
+# Stockpiler [![Circle CI](https://circleci.com/gh/loganfuller/stockpiler.svg?style=svg)](https://circleci.com/gh/loganfuller/stockpiler)
 
 [![Join the chat at https://gitter.im/loganfuller/stockpiler](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/loganfuller/stockpiler?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
@@ -12,7 +12,7 @@ beforehand in which form your configuration will be supplied.
 ## Installation
 
 ```bash
-$ npm install stockpiler
+$ npm install --save stockpiler
 ```
 
 ## Usage
@@ -130,13 +130,14 @@ the `config` object above will be populated as so:
 ## Segmented Configuration
 
 If you'd like to access configuration based on its source (though we recommend
-against this in most circumstances), we also include `config._default`, `config._file`, `config._env`, and `config._arg`.
+against this in most circumstances), we also include non-enumerable properties `config._default`, `config._file`, `config._env`, and `config._arg`.
 
 ## License
 
 The MIT License (MIT)
 
 Copyright (c) 2015 Logan Fuller
+
 Copyright (c) 2014 - 2015 Thalmic Labs Inc.
 
 Permission is hereby granted, free of charge, to any person obtaining
@@ -157,4 +158,3 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
 CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-

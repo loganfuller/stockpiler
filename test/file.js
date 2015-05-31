@@ -1,6 +1,8 @@
 "use strict";
 
 var _ = require("lodash"),
+    path = require("path"),
+    configDir = path.join(__dirname, "config"),
     origEnv = _.clone(process.env);
 
 describe("File config", function() {
@@ -11,10 +13,10 @@ describe("File config", function() {
 
     it("should contain only defaults if called with empty config files",
         function() {
-        process.env.NODE_ENV = null;
+        process.env.NODE_ENV = "";
 
         var config = require("../index.js")({
-            configDir: __dirname + "/config",
+            configDir: configDir,
             cacheConfig: false
         });
 
@@ -23,7 +25,7 @@ describe("File config", function() {
 
     it("should override defaults with file config", function() {
         var config = require("../index.js")({
-            configDir: __dirname + "/config",
+            configDir: configDir,
             cacheConfig: false
         });
 
@@ -34,7 +36,7 @@ describe("File config", function() {
         process.env.NODE_ENV = "stockpiler-recursive-test";
 
         var config = require("../index.js")({
-            configDir: __dirname + "/config",
+            configDir: configDir,
             cacheConfig: false
         });
 
